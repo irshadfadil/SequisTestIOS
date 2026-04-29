@@ -1,0 +1,169 @@
+{
+  "" : {
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserApp-primary.dia",
+    "emit-module-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserApp-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserApp-primary-emit-module.dia",
+    "pch" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserApp-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserApp-primary.swiftdeps"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/App/AppDependencies.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppDependencies~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/App/AppPhase.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppPhase~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/App/AppRootView.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppRootView~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Data/DTOs/ImageResponseDTO.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageResponseDTO~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Data/Repositories/RemoteImageRepository.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/RemoteImageRepository~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Data/Services/ImageAPIClient.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageAPIClient~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Domain/Entities/ImageItem.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageItem~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Domain/Repositories/ImageRepository.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageRepository~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Domain/UseCases/FetchImagesUseCase.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/FetchImagesUseCase~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/ImageBrowserAppApp.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageBrowserAppApp~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Presentation/Components/ImageCardView.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageCardView~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Presentation/Screens/ImageListScreen.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListScreen~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Presentation/Screens/SplashScreen.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/SplashScreen~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Presentation/ViewModels/AppLaunchViewModel.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/AppLaunchViewModel~partial.swiftmodule"
+  },
+  "/Users/fadil/Desktop/ImageBrowserApp/ImageBrowserApp/Presentation/ViewModels/ImageListViewModel.swift" : {
+    "const-values" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel.swiftconstvalues",
+    "dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel.d",
+    "diagnostics" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel.dia",
+    "index-unit-output-path" : "/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel.o",
+    "llvm-bc" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel.bc",
+    "object" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel.o",
+    "swift-dependencies" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel.swiftdeps",
+    "swiftmodule" : "/Users/fadil/Desktop/ImageBrowserApp/.derivedData/Build/Intermediates.noindex/ImageBrowserApp.build/Debug-iphonesimulator/ImageBrowserApp.build/Objects-normal/x86_64/ImageListViewModel~partial.swiftmodule"
+  }
+}

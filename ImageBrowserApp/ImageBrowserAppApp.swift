@@ -11,7 +11,7 @@ import SwiftUI
 struct ImageBrowserAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppRootView()
         }
     }
 }

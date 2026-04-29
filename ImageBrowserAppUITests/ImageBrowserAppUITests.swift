@@ -23,19 +23,21 @@ final class ImageBrowserAppUITests: XCTestCase {
     }
 
     @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testLaunchShowsImageListWithStubbedContent() throws {
         let app = XCUIApplication()
+        app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = "success"
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssertTrue(app.staticTexts["image-list-title"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["author-label-0"].waitForExistence(timeout: 5))
     }
 
     @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
+    func testLaunchShowsRetryStateWhenStubbedToFail() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = "failure"
+        app.launch()
+
+        XCTAssertTrue(app.buttons["retry-button"].waitForExistence(timeout: 5))
     }
 }
