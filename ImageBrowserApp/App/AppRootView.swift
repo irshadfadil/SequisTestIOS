@@ -5,16 +5,16 @@ struct AppRootView: View {
 
     var body: some View {
         ZStack {
-            switch viewModel.phase {
-            case .splash:
+            ImageListScreen(viewModel: viewModel.imageListViewModel)
+                .allowsHitTesting(viewModel.phase == .main)
+                .accessibilityHidden(viewModel.phase != .main)
+
+            if viewModel.phase != .main {
                 SplashScreen()
-                    .transition(.opacity.combined(with: .scale(scale: 1.03)))
-            case .main:
-                ImageListScreen(viewModel: viewModel.imageListViewModel)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .transition(.opacity)
             }
         }
-        .animation(.easeInOut(duration: 0.45), value: viewModel.phase)
+        .animation(.smooth(duration: 0.15), value: viewModel.phase)
         .task {
             await viewModel.start()
         }

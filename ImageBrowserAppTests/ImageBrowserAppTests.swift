@@ -84,7 +84,7 @@ struct ImageBrowserAppTests {
         #expect(viewModel.state == .loaded([.fixture(author: "Katherine Johnson")]))
     }
 
-    @Test func appLaunchViewModelStartsFetchingBeforeSplashFinishes() async throws {
+    @Test func appLaunchViewModelMountsContentBehindSplashAndStartsFetchingImmediately() async throws {
         let repository = MockImageRepository(result: .success([.fixture(author: "Paul Jarvis")]))
         let listViewModel = ImageListViewModel(
             fetchImagesUseCase: FetchImagesUseCase(repository: repository)
@@ -104,12 +104,81 @@ struct ImageBrowserAppTests {
         await Task.yield()
 
         #expect(repository.fetchCallCount == 1)
-        #expect(viewModel.phase == .splash)
+        #expect(viewModel.phase == .contentBehindSplash)
 
         await sleeper.resume()
         await task.value
 
         #expect(viewModel.phase == .main)
+    }
+
+    @Test func appLaunchViewModelWaitsForMinimumSplashDurationBeforeDismissing() async throws {
+        let repository = MockImageRepository(result: .success([.fixture(author: "Grace Hopper")]))
+        let listViewModel = ImageListViewModel(
+            fetchImagesUseCase: FetchImagesUseCase(repository: repository),
+            loadingRevealDelay: .zero
+        )
+        let splashSleeper = ControlledSleeper()
+        let viewModel = AppLaunchViewModel(
+            imageListViewModel: listViewModel,
+            minimumSplashDuration: .seconds(1),
+            sleep: { duration in
+                await splashSleeper.sleep(for: duration)
+            }
+        )
+
+        let task = Task {
+            await viewModel.start()
+        }
+        await Task.yield()
+
+        #expect(viewModel.phase == .contentBehindSplash)
+
+        await Task.yield()
+        #expect(viewModel.phase == .contentBehindSplash)
+
+        await splashSleeper.resume()
+        await task.value
+
+        #expect(viewModel.phase == .main)
+    }
+
+    @Test func appLaunchViewModelWaitsForRevealReadinessAfterMinimumDuration() async throws {
+        let repository = SuspendingImageRepository()
+        let readinessSleeper = ControlledSleeper()
+        let listViewModel = ImageListViewModel(
+            fetchImagesUseCase: FetchImagesUseCase(repository: repository),
+            loadingRevealDelay: .milliseconds(200),
+            sleep: { duration in
+                await readinessSleeper.sleep(for: duration)
+            }
+        )
+        let splashSleeper = ControlledSleeper()
+        let viewModel = AppLaunchViewModel(
+            imageListViewModel: listViewModel,
+            minimumSplashDuration: .seconds(1),
+            sleep: { duration in
+                await splashSleeper.sleep(for: duration)
+            }
+        )
+
+        let task = Task {
+            await viewModel.start()
+        }
+        await Task.yield()
+
+        #expect(viewModel.phase == .contentBehindSplash)
+
+        await splashSleeper.resume()
+        await Task.yield()
+        #expect(viewModel.phase == .contentBehindSplash)
+
+        await readinessSleeper.resume()
+        await task.value
+
+        #expect(viewModel.phase == .main)
+
+        await repository.resume(with: [.fixture(author: "Loaded Later")])
     }
 }
 
@@ -173,6 +242,24 @@ private actor ControlledSleeper {
 
     func resume() {
         continuation?.resume()
+        continuation = nil
+    }
+}
+
+@MainActor
+private final class SuspendingImageRepository: ImageRepository {
+    private var continuation: CheckedContinuation<[ImageItem], Error>?
+    private(set) var fetchCallCount = 0
+
+    func fetchImages() async throws -> [ImageItem] {
+        fetchCallCount += 1
+        return try await withCheckedThrowingContinuation { continuation in
+            self.continuation = continuation
+        }
+    }
+
+    func resume(with items: [ImageItem]) {
+        continuation?.resume(returning: items)
         continuation = nil
     }
 }

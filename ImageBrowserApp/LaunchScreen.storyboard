@@ -18,36 +18,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P8n-7g-eW8">
-                                <rect key="frame" x="124.66666666666667" y="317" width="144" height="144"/>
+                                <rect key="frame" x="132.5" y="289" width="128" height="128"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="▣" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m5q-NN-CxA">
-                                        <rect key="frame" x="44" y="31.333333333333314" width="56" height="56.333333333333314"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="42"/>
+                                        <rect key="frame" x="53.5" y="44" width="21" height="30.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Image Browser" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmU-Pe-SQz">
-                                        <rect key="frame" x="15" y="100.33333333333333" width="114" height="21"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="0.92000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.53333333333333333" green="0.30980392156862746" blue="0.22745098039215686" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="hmU-Pe-SQz" firstAttribute="top" secondItem="m5q-NN-CxA" secondAttribute="bottom" constant="13" id="F1F-YF-F7i"/>
                                     <constraint firstItem="m5q-NN-CxA" firstAttribute="centerX" secondItem="P8n-7g-eW8" secondAttribute="centerX" id="Hc5-j9-NtQ"/>
-                                    <constraint firstItem="hmU-Pe-SQz" firstAttribute="centerX" secondItem="P8n-7g-eW8" secondAttribute="centerX" id="Lk8-DG-9Jv"/>
-                                    <constraint firstItem="m5q-NN-CxA" firstAttribute="top" secondItem="P8n-7g-eW8" secondAttribute="top" constant="31.333333333333314" id="MlW-7W-X6v"/>
+                                    <constraint firstItem="m5q-NN-CxA" firstAttribute="centerY" secondItem="P8n-7g-eW8" secondAttribute="centerY" constant="-10" id="MlW-7W-X6v"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Image Browser" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmU-Pe-SQz">
+                                <rect key="frame" x="86.666666666666657" y="435" width="219.99999999999997" height="38.333333333333314"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="0.92000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" red="0.96470588235294119" green="0.88627450980392153" blue="0.77647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.91764705882352937" green="0.77647058823529413" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="P8n-7g-eW8" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="3nW-0e-i4L"/>
-                            <constraint firstItem="P8n-7g-eW8" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-37" id="Hbo-Ya-e3Y"/>
-                            <constraint firstAttribute="bottom" secondItem="P8n-7g-eW8" secondAttribute="bottom" constant="391" id="I5b-C2-Hmz"/>
+                            <constraint firstItem="hmU-Pe-SQz" firstAttribute="top" secondItem="P8n-7g-eW8" secondAttribute="bottom" constant="18" id="F1F-YF-F7i"/>
+                            <constraint firstItem="hmU-Pe-SQz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Lk8-DG-9Jv"/>
+                            <constraint firstItem="P8n-7g-eW8" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-67" id="Hbo-Ya-e3Y"/>
+                            <constraint firstAttribute="bottom" secondItem="hmU-Pe-SQz" secondAttribute="bottom" constant="378.66666666666669" id="I5b-C2-Hmz"/>
                             <constraint firstItem="P8n-7g-eW8" firstAttribute="width" secondItem="P8n-7g-eW8" secondAttribute="height" multiplier="1:1" id="dOZ-zW-JfZ"/>
                         </constraints>
                     </view>

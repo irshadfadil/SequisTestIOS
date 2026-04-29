@@ -1,46 +1,55 @@
 import SwiftUI
 
 struct SplashScreen: View {
-    @State private var animateBadge = false
-    @State private var animateGlow = false
+    @State private var animatePolish = false
+    @State private var animateGlowPulse = false
 
     var body: some View {
         ZStack {
+            splashBaseColor
+                .ignoresSafeArea()
+
             LinearGradient(
                 colors: [
-                    Color(red: 0.29, green: 0.16, blue: 0.11),
-                    Color(red: 0.76, green: 0.45, blue: 0.28),
-                    Color(red: 0.97, green: 0.87, blue: 0.76),
+                    Color(red: 0.43, green: 0.24, blue: 0.17),
+                    Color(red: 0.76, green: 0.48, blue: 0.32),
+                    Color(red: 0.97, green: 0.85, blue: 0.74),
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
+            .opacity(animatePolish ? 1 : 0)
             .ignoresSafeArea()
 
             Circle()
                 .fill(Color.white.opacity(0.16))
                 .frame(width: 260, height: 260)
                 .blur(radius: 10)
-                .scaleEffect(animateGlow ? 1.08 : 0.92)
-                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: animateGlow)
+                .opacity(animatePolish ? 1 : 0)
+                .scaleEffect(animateGlowPulse ? 1.08 : 0.95)
+                .animation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true), value: animateGlowPulse)
                 .accessibilityHidden(true)
 
             VStack(spacing: 18) {
-                ZStack {
+                ZStack(alignment: .center) {
                     RoundedRectangle(cornerRadius: 28, style: .continuous)
                         .fill(Color.white.opacity(0.18))
-                        .frame(width: 122, height: 122)
+                        .frame(width: 128, height: 128)
                         .overlay {
                             RoundedRectangle(cornerRadius: 28, style: .continuous)
                                 .stroke(Color.white.opacity(0.22), lineWidth: 1)
                         }
 
-                    Image(systemName: "photo.stack.fill")
-                        .font(.system(size: 42, weight: .semibold))
-                        .foregroundStyle(.white)
+                    RoundedRectangle(cornerRadius: animatePolish ? 28 : 6, style: .continuous)
+                        .fill(Color.clear)
+                        .frame(width: 128, height: 128)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .stroke(Color.white.opacity(0.92), lineWidth: 2)
+                                .frame(width: 22, height: 22)
+                                .offset(y: -10)
+                        }
                 }
-                .scaleEffect(animateBadge ? 1 : 0.9)
-                .opacity(animateBadge ? 1 : 0.7)
 
                 VStack(spacing: 8) {
                     Text("Image Browser")
@@ -51,16 +60,24 @@ struct SplashScreen: View {
                         .font(.headline)
                         .foregroundStyle(Color.white.opacity(0.86))
                         .multilineTextAlignment(.center)
+                        .opacity(animatePolish ? 1 : 0)
+                        .offset(y: animatePolish ? 0 : -6)
                 }
             }
             .padding(32)
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("splash-screen")
         .onAppear {
-            animateGlow = true
-            withAnimation(.spring(duration: 0.9, bounce: 0.28)) {
-                animateBadge = true
+            animateGlowPulse = true
+            withAnimation(.easeOut(duration: 0.45)) {
+                animatePolish = true
             }
         }
+    }
+
+    private var splashBaseColor: Color {
+        Color(red: 0.92, green: 0.78, blue: 0.63)
     }
 }
 

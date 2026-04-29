@@ -40,4 +40,14 @@ final class ImageBrowserAppUITests: XCTestCase {
 
         XCTAssertTrue(app.buttons["retry-button"].waitForExistence(timeout: 5))
     }
+
+    @MainActor
+    func testSlowLaunchKeepsSplashVisibleBeforeShowingList() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = "slow-success"
+        app.launch()
+
+        XCTAssertTrue(app.otherElements["splash-screen"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["image-list-title"].waitForExistence(timeout: 6))
+    }
 }

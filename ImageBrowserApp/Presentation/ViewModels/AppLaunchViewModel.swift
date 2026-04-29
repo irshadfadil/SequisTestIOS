@@ -30,9 +30,12 @@ final class AppLaunchViewModel {
         _ = Task {
             await imageListViewModel.loadImages()
         }
-        await Task.yield()
+        phase = .contentBehindSplash
 
-        await sleep(minimumSplashDuration)
+        async let splashDelay: Void = sleep(minimumSplashDuration)
+        async let contentReady: Void = imageListViewModel.waitUntilReadyForReveal()
+
+        _ = await (splashDelay, contentReady)
         phase = .main
     }
 }

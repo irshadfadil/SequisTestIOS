@@ -20,6 +20,11 @@ enum AppDependencies {
         switch processInfo.environment["IMAGE_BROWSER_STUB_MODE"] {
         case "success":
             StubImageRepository(result: .success(ImageItem.stubItems))
+        case "slow-success":
+            DelayedImageRepository(
+                repository: StubImageRepository(result: .success(ImageItem.stubItems)),
+                delay: .seconds(2)
+            )
         case "failure":
             StubImageRepository(result: .failure(ImageLoadingError.failedToLoad))
         default:
@@ -33,6 +38,16 @@ private struct StubImageRepository: ImageRepository {
 
     func fetchImages() async throws -> [ImageItem] {
         try result.get()
+    }
+}
+
+private struct DelayedImageRepository: ImageRepository {
+    let repository: any ImageRepository
+    let delay: Duration
+
+    func fetchImages() async throws -> [ImageItem] {
+        try? await Task.sleep(for: delay)
+        return try await repository.fetchImages()
     }
 }
 
