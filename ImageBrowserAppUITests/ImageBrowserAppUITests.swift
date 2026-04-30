@@ -24,9 +24,7 @@ final class ImageBrowserAppUITests: XCTestCase {
 
     @MainActor
     func testLaunchShowsImageListWithStubbedContent() throws {
-        let app = XCUIApplication()
-        app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = "success"
-        app.launch()
+        let app = launchApp(stubMode: "success")
 
         XCTAssertTrue(app.staticTexts["image-list-title"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["author-label-0"].waitForExistence(timeout: 5))
@@ -34,20 +32,74 @@ final class ImageBrowserAppUITests: XCTestCase {
 
     @MainActor
     func testLaunchShowsRetryStateWhenStubbedToFail() throws {
-        let app = XCUIApplication()
-        app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = "failure"
-        app.launch()
+        let app = launchApp(stubMode: "failure")
 
         XCTAssertTrue(app.buttons["retry-button"].waitForExistence(timeout: 5))
     }
 
     @MainActor
     func testSlowLaunchKeepsSplashVisibleBeforeShowingList() throws {
-        let app = XCUIApplication()
-        app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = "slow-success"
-        app.launch()
+        let app = launchApp(stubMode: "slow-success")
 
         XCTAssertTrue(app.otherElements["splash-screen"].waitForExistence(timeout: 2))
         XCTAssertTrue(app.staticTexts["image-list-title"].waitForExistence(timeout: 6))
+    }
+
+    @MainActor
+    func testScrollingToTheBottomLoadsTheNextPage() throws {
+        let app = launchApp(stubMode: "success")
+
+        XCTAssertTrue(app.staticTexts["author-label-0"].waitForExistence(timeout: 5))
+
+        let nextPageAuthor = app.staticTexts["author-label-20"]
+        for _ in 0 ..< 8 where !nextPageAuthor.exists {
+            app.swipeUp()
+        }
+
+        XCTAssertTrue(nextPageAuthor.exists)
+    }
+
+    @MainActor
+    func testLoadMoreFailureKeepsVisibleItemsAndShowsFooterRetry() throws {
+        let app = launchApp(stubMode: "load-more-failure")
+
+        XCTAssertTrue(app.staticTexts["author-label-0"].waitForExistence(timeout: 5))
+
+        let retryButton = app.buttons["load-more-retry-button"]
+        for _ in 0 ..< 8 where !retryButton.exists {
+            app.swipeUp()
+        }
+
+        XCTAssertTrue(app.staticTexts["author-label-0"].exists)
+        XCTAssertTrue(retryButton.exists)
+    }
+
+    @MainActor
+    func testRetryingLoadMoreAppendsNextPageItems() throws {
+        let app = launchApp(stubMode: "load-more-retry-success")
+
+        XCTAssertTrue(app.staticTexts["author-label-0"].waitForExistence(timeout: 5))
+
+        let retryButton = app.buttons["load-more-retry-button"]
+        for _ in 0 ..< 8 where !retryButton.exists {
+            app.swipeUp()
+        }
+
+        retryButton.tap()
+
+        let nextPageAuthor = app.staticTexts["author-label-20"]
+        for _ in 0 ..< 8 where !nextPageAuthor.exists {
+            app.swipeUp()
+        }
+
+        XCTAssertTrue(nextPageAuthor.exists)
+    }
+
+    @MainActor
+    private func launchApp(stubMode: String) -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = stubMode
+        app.launch()
+        return app
     }
 }

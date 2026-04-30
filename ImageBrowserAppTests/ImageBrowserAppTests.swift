@@ -32,60 +32,230 @@ struct ImageBrowserAppTests {
         #expect(item.downloadURL.absoluteString == "https://example.com/download")
     }
 
-    @Test func repositoryReturnsMappedDomainItems() async throws {
+    @Test func repositoryReturnsMappedDomainItemsForRequestedPage() async throws {
         let client = MockImageAPIClient(result: .success([.fixture(author: "Ada Lovelace")]))
         let repository = RemoteImageRepository(apiClient: client)
 
-        let items = try await repository.fetchImages()
+        let items = try await repository.fetchImages(page: 3, limit: 20)
 
-        #expect(client.fetchCallCount == 1)
+        #expect(client.requests == [.init(page: 3, limit: 20)])
         #expect(items == [.fixture(author: "Ada Lovelace")])
     }
 
-    @Test func listViewModelLoadsImagesSuccessfully() async throws {
-        let repository = MockImageRepository(result: .success([.fixture(author: "Grace Hopper")]))
+    @Test func listViewModelLoadsFirstPageSuccessfully() async throws {
+        let repository = ScriptedImageRepository { page, limit in
+            #expect(page == 1)
+            #expect(limit == 20)
+            return [
+                .fixture(id: "1", author: "Grace Hopper"),
+                .fixture(id: "2", author: "Katherine Johnson"),
+            ]
+        }
         let viewModel = ImageListViewModel(
             fetchImagesUseCase: FetchImagesUseCase(repository: repository)
         )
 
         await viewModel.loadImages()
 
-        #expect(repository.fetchCallCount == 1)
-        #expect(viewModel.state == .loaded([.fixture(author: "Grace Hopper")]))
+        #expect(repository.requests == [.init(page: 1, limit: 20)])
+        #expect(viewModel.state == .loaded(
+            ImageFeedState(
+                items: [
+                    .fixture(id: "1", author: "Grace Hopper"),
+                    .fixture(id: "2", author: "Katherine Johnson"),
+                ],
+                isLoadingMore: false,
+                loadMoreError: nil,
+                hasReachedEnd: true
+            )
+        ))
     }
 
-    @Test func listViewModelShowsErrorWhenLoadingFails() async throws {
-        let repository = MockImageRepository(result: .failure(MockFailure.sample))
+    @Test func reachingTheEndLoadsTheNextPageOnce() async throws {
+        let repository = ScriptedImageRepository { page, _ in
+            switch page {
+            case 1:
+                return (1 ... 20).map { index in
+                    .fixture(id: "\(index)", author: "Author \(index)")
+                }
+            case 2:
+                return [
+                    .fixture(id: "21", author: "Next Page Author"),
+                ]
+            default:
+                return []
+            }
+        }
         let viewModel = ImageListViewModel(
             fetchImagesUseCase: FetchImagesUseCase(repository: repository)
         )
 
         await viewModel.loadImages()
+        await viewModel.loadMoreIfNeeded(currentItemID: "17")
+        await viewModel.loadMoreIfNeeded(currentItemID: "20")
 
-        #expect(repository.fetchCallCount == 1)
-        #expect(viewModel.state == .error(ImageListViewModel.defaultErrorMessage))
+        #expect(repository.requests == [
+            .init(page: 1, limit: 20),
+            .init(page: 2, limit: 20),
+        ])
+
+        switch viewModel.state {
+        case let .loaded(feed):
+            #expect(feed.items.count == 21)
+            #expect(feed.items.last?.author == "Next Page Author")
+            #expect(feed.isLoadingMore == false)
+            #expect(feed.loadMoreError == nil)
+            #expect(feed.hasReachedEnd == true)
+        default:
+            #expect(Bool(false))
+        }
     }
 
-    @Test func retryTriggersAnotherFetchAfterFailure() async throws {
-        let repository = SequencedImageRepository(results: [
-            .failure(MockFailure.sample),
-            .success([.fixture(author: "Katherine Johnson")]),
+    @Test func loadMoreFailureKeepsExistingItemsAndShowsFooterError() async throws {
+        let repository = SequencedPageRepository(responsesByPage: [
+            1: [
+                .success((1 ... 20).map { index in
+                    .fixture(id: "\(index)", author: "Author \(index)")
+                }),
+            ],
+            2: [
+                .failure(MockFailure.sample),
+            ],
         ])
         let viewModel = ImageListViewModel(
             fetchImagesUseCase: FetchImagesUseCase(repository: repository)
         )
 
         await viewModel.loadImages()
-        #expect(viewModel.state == .error(ImageListViewModel.defaultErrorMessage))
+        await viewModel.loadMoreIfNeeded(currentItemID: "20")
 
-        await viewModel.retry()
+        #expect(repository.requests == [
+            .init(page: 1, limit: 20),
+            .init(page: 2, limit: 20),
+        ])
 
-        #expect(repository.fetchCallCount == 2)
-        #expect(viewModel.state == .loaded([.fixture(author: "Katherine Johnson")]))
+        switch viewModel.state {
+        case let .loaded(feed):
+            #expect(feed.items.count == 20)
+            #expect(feed.isLoadingMore == false)
+            #expect(feed.loadMoreError == ImageListViewModel.defaultErrorMessage)
+            #expect(feed.hasReachedEnd == false)
+        default:
+            #expect(Bool(false))
+        }
+    }
+
+    @Test func retryLoadMoreRequestsTheFailedPageAgainAndAppendsResults() async throws {
+        let repository = SequencedPageRepository(responsesByPage: [
+            1: [
+                .success((1 ... 20).map { index in
+                    .fixture(id: "\(index)", author: "Author \(index)")
+                }),
+            ],
+            2: [
+                .failure(MockFailure.sample),
+                .success([
+                    .fixture(id: "21", author: "Retry Success"),
+                    .fixture(id: "22", author: "Retry Success 2"),
+                ]),
+            ],
+        ])
+        let viewModel = ImageListViewModel(
+            fetchImagesUseCase: FetchImagesUseCase(repository: repository)
+        )
+
+        await viewModel.loadImages()
+        await viewModel.loadMoreIfNeeded(currentItemID: "20")
+        await viewModel.retryLoadMore()
+
+        #expect(repository.requests == [
+            .init(page: 1, limit: 20),
+            .init(page: 2, limit: 20),
+            .init(page: 2, limit: 20),
+        ])
+
+        switch viewModel.state {
+        case let .loaded(feed):
+            #expect(feed.items.count == 22)
+            #expect(feed.items.suffix(2).map(\.author) == ["Retry Success", "Retry Success 2"])
+            #expect(feed.loadMoreError == nil)
+            #expect(feed.hasReachedEnd == true)
+        default:
+            #expect(Bool(false))
+        }
+    }
+
+    @Test func duplicateIdsAcrossPagesAreOnlyStoredOnce() async throws {
+        let repository = SequencedPageRepository(responsesByPage: [
+            1: [
+                .success([
+                    .fixture(id: "1", author: "Author 1"),
+                    .fixture(id: "2", author: "Author 2"),
+                ]),
+            ],
+            2: [
+                .success([
+                    .fixture(id: "2", author: "Author 2 Duplicate"),
+                    .fixture(id: "3", author: "Author 3"),
+                ]),
+            ],
+        ])
+        let viewModel = ImageListViewModel(
+            fetchImagesUseCase: FetchImagesUseCase(repository: repository),
+            pageSize: 2
+        )
+
+        await viewModel.loadImages()
+        await viewModel.loadMoreIfNeeded(currentItemID: "2")
+
+        switch viewModel.state {
+        case let .loaded(feed):
+            #expect(feed.items.map(\.id) == ["1", "2", "3"])
+            #expect(feed.items.count == 3)
+        default:
+            #expect(Bool(false))
+        }
+    }
+
+    @Test func shortPageMarksTheEndAndPreventsFurtherRequests() async throws {
+        let repository = SequencedPageRepository(responsesByPage: [
+            1: [
+                .success((1 ... 20).map { index in
+                    .fixture(id: "\(index)", author: "Author \(index)")
+                }),
+            ],
+            2: [
+                .success([
+                    .fixture(id: "21", author: "Last Page Author"),
+                ]),
+            ],
+        ])
+        let viewModel = ImageListViewModel(
+            fetchImagesUseCase: FetchImagesUseCase(repository: repository)
+        )
+
+        await viewModel.loadImages()
+        await viewModel.loadMoreIfNeeded(currentItemID: "20")
+        await viewModel.loadMoreIfNeeded(currentItemID: "21")
+
+        #expect(repository.requests == [
+            .init(page: 1, limit: 20),
+            .init(page: 2, limit: 20),
+        ])
+
+        switch viewModel.state {
+        case let .loaded(feed):
+            #expect(feed.hasReachedEnd == true)
+            #expect(feed.items.count == 21)
+        default:
+            #expect(Bool(false))
+        }
     }
 
     @Test func appLaunchViewModelMountsContentBehindSplashAndStartsFetchingImmediately() async throws {
-        let repository = MockImageRepository(result: .success([.fixture(author: "Paul Jarvis")]))
+        let repository = ScriptedImageRepository { _, _ in
+            [.fixture(author: "Paul Jarvis")]
+        }
         let listViewModel = ImageListViewModel(
             fetchImagesUseCase: FetchImagesUseCase(repository: repository)
         )
@@ -103,7 +273,7 @@ struct ImageBrowserAppTests {
         }
         await Task.yield()
 
-        #expect(repository.fetchCallCount == 1)
+        #expect(repository.requests == [.init(page: 1, limit: 20)])
         #expect(viewModel.phase == .contentBehindSplash)
 
         await sleeper.resume()
@@ -113,7 +283,9 @@ struct ImageBrowserAppTests {
     }
 
     @Test func appLaunchViewModelWaitsForMinimumSplashDurationBeforeDismissing() async throws {
-        let repository = MockImageRepository(result: .success([.fixture(author: "Grace Hopper")]))
+        let repository = ScriptedImageRepository { _, _ in
+            [.fixture(author: "Grace Hopper")]
+        }
         let listViewModel = ImageListViewModel(
             fetchImagesUseCase: FetchImagesUseCase(repository: repository),
             loadingRevealDelay: .zero
@@ -186,47 +358,59 @@ private enum MockFailure: Error {
     case sample
 }
 
-@MainActor
-private final class MockImageRepository: ImageRepository {
-    private let result: Result<[ImageItem], Error>
-    private(set) var fetchCallCount = 0
+private struct PageRequest: Equatable {
+    let page: Int
+    let limit: Int
+}
 
-    init(result: Result<[ImageItem], Error>) {
-        self.result = result
+@MainActor
+private final class ScriptedImageRepository: ImageRepository {
+    private let handler: @MainActor (Int, Int) async throws -> [ImageItem]
+    private(set) var requests: [PageRequest] = []
+
+    init(handler: @escaping @MainActor (Int, Int) async throws -> [ImageItem]) {
+        self.handler = handler
     }
 
-    func fetchImages() async throws -> [ImageItem] {
-        fetchCallCount += 1
-        return try result.get()
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageItem] {
+        requests.append(.init(page: page, limit: limit))
+        return try await handler(page, limit)
     }
 }
 
 @MainActor
-private final class SequencedImageRepository: ImageRepository {
-    private var results: [Result<[ImageItem], Error>]
-    private(set) var fetchCallCount = 0
+private final class SequencedPageRepository: ImageRepository {
+    private var responsesByPage: [Int: [Result<[ImageItem], Error>]]
+    private(set) var requests: [PageRequest] = []
 
-    init(results: [Result<[ImageItem], Error>]) {
-        self.results = results
+    init(responsesByPage: [Int: [Result<[ImageItem], Error>]]) {
+        self.responsesByPage = responsesByPage
     }
 
-    func fetchImages() async throws -> [ImageItem] {
-        fetchCallCount += 1
-        return try results.removeFirst().get()
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageItem] {
+        requests.append(.init(page: page, limit: limit))
+
+        guard var responses = responsesByPage[page], !responses.isEmpty else {
+            return []
+        }
+
+        let result = responses.removeFirst()
+        responsesByPage[page] = responses
+        return try result.get()
     }
 }
 
 @MainActor
 private final class MockImageAPIClient: ImageAPIClient {
     private let result: Result<[ImageResponseDTO], Error>
-    private(set) var fetchCallCount = 0
+    private(set) var requests: [PageRequest] = []
 
     init(result: Result<[ImageResponseDTO], Error>) {
         self.result = result
     }
 
-    func fetchImages() async throws -> [ImageResponseDTO] {
-        fetchCallCount += 1
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageResponseDTO] {
+        requests.append(.init(page: page, limit: limit))
         return try result.get()
     }
 }
@@ -249,10 +433,10 @@ private actor ControlledSleeper {
 @MainActor
 private final class SuspendingImageRepository: ImageRepository {
     private var continuation: CheckedContinuation<[ImageItem], Error>?
-    private(set) var fetchCallCount = 0
+    private(set) var requests: [PageRequest] = []
 
-    func fetchImages() async throws -> [ImageItem] {
-        fetchCallCount += 1
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageItem] {
+        requests.append(.init(page: page, limit: limit))
         return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
         }

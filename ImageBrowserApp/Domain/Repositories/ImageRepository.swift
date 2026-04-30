@@ -1,5 +1,5 @@
 import Foundation
 
 protocol ImageRepository {
-    func fetchImages() async throws -> [ImageItem]
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageItem]
 }

@@ -45,20 +45,34 @@ struct ImageListScreen: View {
     @ViewBuilder
     private var content: some View {
         switch viewModel.state {
-        case .loading:
+        case .initialLoading:
             cardsScroll {
                 ForEach(0 ..< 7, id: \.self) { _ in
                     PlaceholderCardView()
                 }
             }
-        case let .loaded(items):
-            if items.isEmpty {
+        case let .loaded(feed):
+            if feed.items.isEmpty {
                 emptyState
             } else {
                 cardsScroll {
-                    ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                    ForEach(Array(feed.items.enumerated()), id: \.element.id) { index, item in
                         ImageCardView(item: item, index: index)
+                            .onAppear {
+                                Task {
+                                    await viewModel.loadMoreIfNeeded(currentItemID: item.id)
+                                }
+                            }
                     }
+
+                    PaginationFooterView(
+                        feed: feed,
+                        retry: {
+                            Task {
+                                await viewModel.retryLoadMore()
+                            }
+                        }
+                    )
                 }
             }
         case let .error(message):
@@ -161,6 +175,53 @@ private struct PlaceholderCardView: View {
     }
 }
 
+private struct PaginationFooterView: View {
+    let feed: ImageFeedState
+    let retry: () -> Void
+
+    var body: some View {
+        Group {
+            if feed.isLoadingMore {
+                HStack(spacing: 10) {
+                    ProgressView()
+                        .tint(Color(red: 0.52, green: 0.30, blue: 0.21))
+
+                    Text("Loading more images...")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(Color.black.opacity(0.62))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .accessibilityIdentifier("load-more-progress")
+            } else if let message = feed.loadMoreError {
+                VStack(spacing: 10) {
+                    Text(message)
+                        .font(.subheadline)
+                        .foregroundStyle(Color.black.opacity(0.62))
+                        .multilineTextAlignment(.center)
+
+                    Button(action: retry) {
+                        Text("Retry Loading More")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 13)
+                    }
+                    .buttonStyle(.plain)
+                    .background(Color(red: 0.52, green: 0.30, blue: 0.21))
+                    .foregroundStyle(.white)
+                    .clipShape(.rect(cornerRadius: 18))
+                    .accessibilityIdentifier("load-more-retry-button")
+                }
+                .padding(.top, 6)
+            } else {
+                Color.clear
+                    .frame(height: 1)
+                    .accessibilityHidden(true)
+            }
+        }
+    }
+}
+
 #Preview("Loaded") {
     ImageListScreen(
         viewModel: ImageListViewModel(
@@ -172,8 +233,11 @@ private struct PlaceholderCardView: View {
 }
 
 private struct PreviewImageAPIClient: ImageAPIClient {
-    func fetchImages() async throws -> [ImageResponseDTO] {
-        ImageItem.stubItems.map { item in
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageResponseDTO] {
+        let startIndex = max((page - 1) * limit, 0)
+        let items = Array(ImageItem.stubItems.dropFirst(startIndex).prefix(limit))
+
+        return items.map { item in
             ImageResponseDTO(
                 id: item.id,
                 author: item.author,

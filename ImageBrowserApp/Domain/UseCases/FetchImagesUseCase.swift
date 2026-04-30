@@ -7,7 +7,7 @@ struct FetchImagesUseCase {
         self.repository = repository
     }
 
-    func execute() async throws -> [ImageItem] {
-        try await repository.fetchImages()
+    func execute(page: Int, limit: Int) async throws -> [ImageItem] {
+        try await repository.fetchImages(page: page, limit: limit)
     }
 }

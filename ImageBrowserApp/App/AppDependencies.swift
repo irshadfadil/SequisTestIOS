@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 enum AppDependencies {
     static func makeLaunchViewModel(processInfo: ProcessInfo = .processInfo) -> AppLaunchViewModel {
         let repository = makeRepository(processInfo: processInfo)
@@ -19,25 +20,57 @@ enum AppDependencies {
     static func makeRepository(processInfo: ProcessInfo = .processInfo) -> any ImageRepository {
         switch processInfo.environment["IMAGE_BROWSER_STUB_MODE"] {
         case "success":
-            StubImageRepository(result: .success(ImageItem.stubItems))
+            StubImageRepository(mode: .success)
         case "slow-success":
             DelayedImageRepository(
-                repository: StubImageRepository(result: .success(ImageItem.stubItems)),
+                repository: StubImageRepository(mode: .success),
                 delay: .seconds(2)
             )
+        case "load-more-failure":
+            StubImageRepository(mode: .pageTwoFailure)
+        case "load-more-retry-success":
+            StubImageRepository(mode: .pageTwoFailsOnce)
         case "failure":
-            StubImageRepository(result: .failure(ImageLoadingError.failedToLoad))
+            StubImageRepository(mode: .failure)
         default:
             RemoteImageRepository(apiClient: LiveImageAPIClient())
         }
     }
 }
 
-private struct StubImageRepository: ImageRepository {
-    let result: Result<[ImageItem], Error>
+private final class StubImageRepository: ImageRepository {
+    enum Mode {
+        case success
+        case pageTwoFailure
+        case pageTwoFailsOnce
+        case failure
+    }
 
-    func fetchImages() async throws -> [ImageItem] {
-        try result.get()
+    let mode: Mode
+    private var failedPages = Set<Int>()
+
+    init(mode: Mode) {
+        self.mode = mode
+    }
+
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageItem] {
+        switch mode {
+        case .failure:
+            throw ImageLoadingError.failedToLoad
+        case .pageTwoFailure where page == 2:
+            throw ImageLoadingError.failedToLoad
+        case .pageTwoFailsOnce where page == 2 && !failedPages.contains(page):
+            failedPages.insert(page)
+            throw ImageLoadingError.failedToLoad
+        case .success, .pageTwoFailure, .pageTwoFailsOnce:
+            let startIndex = max((page - 1) * limit, 0)
+            guard startIndex < ImageItem.stubItems.count else {
+                return []
+            }
+
+            let endIndex = min(startIndex + limit, ImageItem.stubItems.count)
+            return Array(ImageItem.stubItems[startIndex ..< endIndex])
+        }
     }
 }
 
@@ -45,9 +78,9 @@ private struct DelayedImageRepository: ImageRepository {
     let repository: any ImageRepository
     let delay: Duration
 
-    func fetchImages() async throws -> [ImageItem] {
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageItem] {
         try? await Task.sleep(for: delay)
-        return try await repository.fetchImages()
+        return try await repository.fetchImages(page: page, limit: limit)
     }
 }
 
@@ -69,62 +102,59 @@ enum ImageLoadingError: LocalizedError {
 }
 
 extension ImageItem {
-    static let stubItems: [ImageItem] = [
-        .init(
-            id: "0",
-            author: "Alejandro Escamilla",
-            width: 5616,
-            height: 3744,
-            sourceURL: URL(string: "https://unsplash.com/photos/yC-Yzbqy7PY")!,
-            downloadURL: URL(string: "https://picsum.photos/id/0/5616/3744")!
-        ),
-        .init(
-            id: "1",
-            author: "Alejandro Escamilla",
-            width: 5616,
-            height: 3744,
-            sourceURL: URL(string: "https://unsplash.com/photos/LNRyGwIJr5c")!,
-            downloadURL: URL(string: "https://picsum.photos/id/1/5616/3744")!
-        ),
-        .init(
-            id: "10",
-            author: "Paul Jarvis",
-            width: 2500,
-            height: 1667,
-            sourceURL: URL(string: "https://unsplash.com/photos/6J--NXulQCs")!,
-            downloadURL: URL(string: "https://picsum.photos/id/10/2500/1667")!
-        ),
-        .init(
-            id: "100",
-            author: "Tina Rataj",
-            width: 2500,
-            height: 1656,
-            sourceURL: URL(string: "https://unsplash.com/photos/pwaaqfoMibI")!,
-            downloadURL: URL(string: "https://picsum.photos/id/100/2500/1656")!
-        ),
-        .init(
-            id: "1000",
-            author: "Lukas Budimaier",
-            width: 5626,
-            height: 3635,
-            sourceURL: URL(string: "https://unsplash.com/photos/6cY-FvMlmkQ")!,
-            downloadURL: URL(string: "https://picsum.photos/id/1000/5626/3635")!
-        ),
-        .init(
-            id: "1001",
-            author: "Danielle MacInnes",
-            width: 5616,
-            height: 3744,
-            sourceURL: URL(string: "https://unsplash.com/photos/2JddPq7DA00")!,
-            downloadURL: URL(string: "https://picsum.photos/id/1001/5616/3744")!
-        ),
-        .init(
-            id: "1002",
-            author: "NASA",
-            width: 4312,
-            height: 2868,
-            sourceURL: URL(string: "https://unsplash.com/photos/-hI5dX2ObAs")!,
-            downloadURL: URL(string: "https://picsum.photos/id/1002/4312/2868")!
-        ),
-    ]
+    static let stubItems: [ImageItem] = {
+        let seeds: [(id: String, author: String)] = [
+            ("0", "Alejandro Escamilla"),
+            ("1", "Alejandro Escamilla"),
+            ("10", "Paul Jarvis"),
+            ("100", "Tina Rataj"),
+            ("1000", "Lukas Budimaier"),
+            ("1001", "Danielle MacInnes"),
+            ("1002", "NASA"),
+            ("1003", "E+N Photographies"),
+            ("1004", "Soo Ann Woon"),
+            ("1005", "Mikhail Nilov"),
+            ("1006", "Maksim Goncharenok"),
+            ("1008", "Khanh Le"),
+            ("1009", "Erik Mclean"),
+            ("101", "Ales Krivec"),
+            ("1010", "Yuli Superson"),
+            ("1011", "Luca Bravo"),
+            ("1012", "Lina Kivaka"),
+            ("1013", "Maddy Baker"),
+            ("1014", "Pixabay"),
+            ("1015", "Annie Spratt"),
+            ("1016", "Artem Labunsky"),
+            ("1018", "Taryn Elliott"),
+            ("1019", "Vlad Bagacian"),
+            ("102", "Daria Shevtsova"),
+            ("1020", "Claudio Schwarz"),
+            ("1021", "Jake Nackos"),
+            ("1022", "Life Of Pix"),
+            ("1023", "Jorge Gardner"),
+            ("1024", "Matheus Bertelli"),
+            ("1025", "Mali Maeder"),
+            ("1026", "Simon Berger"),
+            ("1027", "Meysam Azarm"),
+            ("1028", "Maksim Shutov"),
+            ("1029", "Sam Kolder"),
+            ("103", "Blaise Darley"),
+            ("1031", "Kelly Sikkema"),
+            ("1033", "Tom Barrett"),
+            ("1035", "Eberhard Grossgasteiger"),
+            ("1036", "Matti Blume"),
+            ("1037", "Joshua Earle"),
+        ]
+
+        return seeds.map { seed in
+            .init(
+                id: seed.id,
+                author: seed.author,
+                width: 3200,
+                height: 2400,
+                sourceURL: URL(string: "https://unsplash.com/photos/\(seed.id)")!,
+                downloadURL: URL(string: "https://picsum.photos/id/\(seed.id)/3200/2400")!
+            )
+        }
+    }()
 }

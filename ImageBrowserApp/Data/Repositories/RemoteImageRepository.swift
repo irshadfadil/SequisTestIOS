@@ -7,8 +7,8 @@ struct RemoteImageRepository: ImageRepository {
         self.apiClient = apiClient
     }
 
-    func fetchImages() async throws -> [ImageItem] {
-        try await apiClient.fetchImages().map { dto in
+    func fetchImages(page: Int, limit: Int) async throws -> [ImageItem] {
+        try await apiClient.fetchImages(page: page, limit: limit).map { dto in
             try dto.toDomain()
         }
     }
