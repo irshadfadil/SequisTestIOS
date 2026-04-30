@@ -4,14 +4,19 @@ struct ImageListScreen: View {
     let viewModel: ImageListViewModel
 
     var body: some View {
-        ZStack {
-            Color(red: 0.96, green: 0.95, blue: 0.93)
-                .ignoresSafeArea()
+        NavigationStack {
+            ZStack {
+                Color(red: 0.96, green: 0.95, blue: 0.93)
+                    .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                header
-                content
+                VStack(spacing: 0) {
+                    header
+                    content
+                }
             }
+            .navigationTitle("Image List")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarVisibility(.hidden, for: .navigationBar)
         }
     }
 
@@ -57,12 +62,20 @@ struct ImageListScreen: View {
             } else {
                 cardsScroll {
                     ForEach(Array(feed.items.enumerated()), id: \.element.id) { index, item in
-                        ImageCardView(item: item, index: index)
-                            .onAppear {
-                                Task {
-                                    await viewModel.loadMoreIfNeeded(currentItemID: item.id)
-                                }
+                        NavigationLink {
+                            ImageDetailScreen(
+                                viewModel: AppDependencies.makeDetailViewModel(for: item)
+                            )
+                        } label: {
+                            ImageCardView(item: item, index: index)
+                        }
+                        .accessibilityIdentifier("image-card-\(index)")
+                        .buttonStyle(.plain)
+                        .onAppear {
+                            Task {
+                                await viewModel.loadMoreIfNeeded(currentItemID: item.id)
                             }
+                        }
                     }
 
                     PaginationFooterView(

@@ -11,4 +11,8 @@ struct ImageItem: Identifiable, Equatable {
     var thumbnailURL: URL {
         URL(string: "https://picsum.photos/id/\(id)/320/320") ?? downloadURL
     }
+
+    var detailImageURL: URL {
+        URL(string: "https://picsum.photos/id/\(id)/1200/900") ?? downloadURL
+    }
 }

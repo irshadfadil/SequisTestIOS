@@ -252,6 +252,129 @@ struct ImageBrowserAppTests {
         }
     }
 
+    @Test func commentResourcesDecodeIntoNonEmptyWordLists() throws {
+        let loader = JSONFileWordListLoader(resourceDirectoryURL: resourceDirectoryURL)
+
+        let wordLists = try loader.loadWordLists()
+
+        #expect(!wordLists.firstNames.isEmpty)
+        #expect(!wordLists.lastNames.isEmpty)
+        #expect(!wordLists.verbs.isEmpty)
+        #expect(!wordLists.nouns.isEmpty)
+    }
+
+    @Test func randomCommentGeneratorCreatesANameAndContent() throws {
+        let generator = RandomCommentGenerator(
+            loader: StubWordListLoader(
+                wordLists: .init(
+                    firstNames: ["Tim"],
+                    lastNames: ["Mills"],
+                    verbs: ["work", "reply"],
+                    nouns: ["field", "month"]
+                )
+            )
+        )
+
+        let comment = try generator.generateComment(
+            for: "1002",
+            createdAt: Date(timeIntervalSince1970: 100)
+        )
+
+        #expect(comment.imageID == "1002")
+        #expect(comment.authorName.split(separator: " ").count == 2)
+        #expect(!comment.content.isEmpty)
+    }
+
+    @Test func detailViewModelStartsEmptyForANewImage() {
+        let repository = TestCommentRepository()
+        let viewModel = ImageDetailViewModel(
+            image: .fixture(id: "detail-1"),
+            commentRepository: repository
+        )
+
+        viewModel.loadComments()
+
+        #expect(viewModel.comments.isEmpty)
+    }
+
+    @Test func addCommentInsertsTheNewestCommentAtTheTop() async {
+        let repository = TestCommentRepository()
+        let viewModel = ImageDetailViewModel(
+            image: .fixture(id: "detail-1"),
+            commentRepository: repository,
+            now: { Date(timeIntervalSince1970: 10_000) }
+        )
+
+        await viewModel.addComment()
+        await viewModel.addComment()
+
+        #expect(viewModel.comments.count == 2)
+        #expect(viewModel.comments[0].createdAt >= viewModel.comments[1].createdAt)
+    }
+
+    @Test func deleteCommentRemovesTheTargetComment() async throws {
+        let repository = TestCommentRepository()
+        let viewModel = ImageDetailViewModel(
+            image: .fixture(id: "detail-2"),
+            commentRepository: repository
+        )
+
+        await viewModel.addComment()
+        await viewModel.addComment()
+
+        let removedID = try #require(viewModel.comments.last?.id)
+        viewModel.deleteComment(id: removedID)
+
+        #expect(viewModel.comments.count == 1)
+        #expect(viewModel.comments.contains(where: { $0.id == removedID }) == false)
+    }
+
+    @Test func commentsRemainIsolatedPerImageID() async {
+        let repository = TestCommentRepository()
+        let firstViewModel = ImageDetailViewModel(
+            image: .fixture(id: "image-a"),
+            commentRepository: repository
+        )
+        let secondViewModel = ImageDetailViewModel(
+            image: .fixture(id: "image-b"),
+            commentRepository: repository
+        )
+
+        await firstViewModel.addComment()
+        secondViewModel.loadComments()
+
+        #expect(firstViewModel.comments.count == 1)
+        #expect(secondViewModel.comments.isEmpty)
+    }
+
+    @Test func newCommentsShowNowAsTheRelativeDate() async throws {
+        let fixedNow = Date(timeIntervalSince1970: 5_000)
+        let repository = TestCommentRepository(now: { fixedNow })
+        let viewModel = ImageDetailViewModel(
+            image: .fixture(id: "detail-3"),
+            commentRepository: repository,
+            now: { fixedNow }
+        )
+
+        await viewModel.addComment()
+        let newestComment = try #require(viewModel.comments.first)
+
+        #expect(viewModel.relativeDateText(for: newestComment) == "now")
+    }
+
+    @Test func generatorFailureDoesNotCrashDetailState() async {
+        let repository = FailingCommentRepository(error: CommentGenerationError.missingResource("verbs"))
+        let viewModel = ImageDetailViewModel(
+            image: .fixture(id: "detail-4"),
+            commentRepository: repository
+        )
+
+        await viewModel.addComment()
+
+        #expect(viewModel.comments.isEmpty)
+        #expect(viewModel.errorMessage == "Missing comment resource: verbs.")
+    }
+
     @Test func appLaunchViewModelMountsContentBehindSplashAndStartsFetchingImmediately() async throws {
         let repository = ScriptedImageRepository { _, _ in
             [.fixture(author: "Paul Jarvis")]
@@ -486,4 +609,91 @@ private extension ImageItem {
             downloadURL: downloadURL
         )
     }
+}
+
+private extension ImageBrowserAppTests {
+    var resourceDirectoryURL: URL {
+        URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("ImageBrowserApp")
+            .appendingPathComponent("resources")
+    }
+}
+
+private struct StubWordListLoader: CommentWordListLoading {
+    let wordLists: CommentWordLists
+
+    func loadWordLists() throws -> CommentWordLists {
+        wordLists
+    }
+}
+
+@MainActor
+private final class TestCommentRepository: CommentRepository {
+    private let repository: InMemoryCommentRepository
+
+    init(
+        generator: CommentGenerating = TestCommentGenerator(),
+        now: @escaping () -> Date = Date.init
+    ) {
+        repository = InMemoryCommentRepository(generator: generator, now: now)
+    }
+
+    func comments(for imageID: String) -> [CommentItem] {
+        repository.comments(for: imageID)
+    }
+
+    func addGeneratedComment(for imageID: String) async throws -> CommentItem {
+        try await repository.addGeneratedComment(for: imageID)
+    }
+
+    func deleteComment(id: UUID, for imageID: String) {
+        repository.deleteComment(id: id, for: imageID)
+    }
+}
+
+@MainActor
+private struct TestCommentGenerator: CommentGenerating {
+    private var names = ["Tim Vn Zandt", "Roger Root", "Carl Kassing"]
+    private var messages = [
+        "work jellyfish tool last art party repeat care robin foot army snow mend amuse unlock camp nose stop stomach month reply ocean girl tour rule",
+        "lock plastic insect base strap money boil shoe object sort wave look part road scorch moan stir vessel cloth night beds melt flower",
+        "level fly tame ladybug ban surprise thing punish grass store press boat queen reduce grandmother turkey quartz thaw unlock vest dock request switch crowd cows recognise yawn moor plan",
+    ]
+    private static var nextIndex = 0
+
+    func generateComment(for imageID: String, createdAt: Date) throws -> CommentItem {
+        let index = Self.nextIndex
+        Self.nextIndex += 1
+        let name = names[index % names.count]
+        let content = messages[index % messages.count]
+
+        return CommentItem(
+            id: UUID(),
+            imageID: imageID,
+            authorName: name,
+            content: content,
+            createdAt: createdAt
+        )
+    }
+}
+
+@MainActor
+private final class FailingCommentRepository: CommentRepository {
+    let error: Error
+
+    init(error: Error) {
+        self.error = error
+    }
+
+    func comments(for imageID _: String) -> [CommentItem] {
+        []
+    }
+
+    func addGeneratedComment(for imageID _: String) async throws -> CommentItem {
+        throw error
+    }
+
+    func deleteComment(id _: UUID, for imageID _: String) {}
 }

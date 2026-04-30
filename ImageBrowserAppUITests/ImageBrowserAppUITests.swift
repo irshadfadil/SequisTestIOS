@@ -96,6 +96,73 @@ final class ImageBrowserAppUITests: XCTestCase {
     }
 
     @MainActor
+    func testTappingACardOpensImageDetail() throws {
+        let app = launchApp(stubMode: "success")
+
+        let firstCard = app.otherElements["image-card-0"]
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 5))
+
+        firstCard.tap()
+
+        XCTAssertTrue(app.otherElements["detail-image"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["add-comment-button"].exists)
+    }
+
+    @MainActor
+    func testTappingPlusAddsTheFirstComment() throws {
+        let app = launchApp(stubMode: "success")
+
+        let firstCard = app.otherElements["image-card-0"]
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 5))
+        firstCard.tap()
+
+        let addCommentButton = app.buttons["add-comment-button"]
+        XCTAssertTrue(addCommentButton.waitForExistence(timeout: 5))
+        addCommentButton.tap()
+
+        XCTAssertTrue(app.staticTexts["comment-author-0"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["comment-date-0"].exists)
+    }
+
+    @MainActor
+    func testTappingPlusTwiceKeepsNewestCommentAtTheTop() throws {
+        let app = launchApp(stubMode: "success")
+
+        let firstCard = app.otherElements["image-card-0"]
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 5))
+        firstCard.tap()
+
+        let addCommentButton = app.buttons["add-comment-button"]
+        XCTAssertTrue(addCommentButton.waitForExistence(timeout: 5))
+
+        addCommentButton.tap()
+        addCommentButton.tap()
+
+        XCTAssertTrue(app.otherElements["comment-row-0"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.otherElements["comment-row-1"].exists)
+    }
+
+    @MainActor
+    func testSwipeDeleteRemovesAComment() throws {
+        let app = launchApp(stubMode: "success")
+
+        let firstCard = app.otherElements["image-card-0"]
+        XCTAssertTrue(firstCard.waitForExistence(timeout: 5))
+        firstCard.tap()
+
+        let addCommentButton = app.buttons["add-comment-button"]
+        XCTAssertTrue(addCommentButton.waitForExistence(timeout: 5))
+        addCommentButton.tap()
+
+        let firstComment = app.otherElements["comment-row-0"]
+        XCTAssertTrue(firstComment.waitForExistence(timeout: 5))
+        firstComment.swipeLeft()
+        app.buttons["Delete"].tap()
+
+        XCTAssertFalse(firstComment.exists)
+    }
+
+    @MainActor
     private func launchApp(stubMode: String) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchEnvironment["IMAGE_BROWSER_STUB_MODE"] = stubMode

@@ -2,6 +2,8 @@ import Foundation
 
 @MainActor
 enum AppDependencies {
+    private static let commentRepository: CommentRepository = makeCommentRepository()
+
     static func makeLaunchViewModel(processInfo: ProcessInfo = .processInfo) -> AppLaunchViewModel {
         let repository = makeRepository(processInfo: processInfo)
         let listViewModel = ImageListViewModel(
@@ -35,6 +37,22 @@ enum AppDependencies {
         default:
             RemoteImageRepository(apiClient: LiveImageAPIClient())
         }
+    }
+
+    static func makeDetailViewModel(for image: ImageItem) -> ImageDetailViewModel {
+        ImageDetailViewModel(
+            image: image,
+            commentRepository: commentRepository
+        )
+    }
+
+    private static func makeCommentRepository() -> CommentRepository {
+        let generator: CommentGenerating
+        generator = RandomCommentGenerator(
+            loader: JSONFileWordListLoader(bundle: .main, subdirectory: "resources")
+        )
+
+        return InMemoryCommentRepository(generator: generator)
     }
 }
 
@@ -81,6 +99,15 @@ private struct DelayedImageRepository: ImageRepository {
     func fetchImages(page: Int, limit: Int) async throws -> [ImageItem] {
         try? await Task.sleep(for: delay)
         return try await repository.fetchImages(page: page, limit: limit)
+    }
+}
+
+@MainActor
+private struct FailingCommentGenerator: CommentGenerating {
+    let error: Error
+
+    func generateComment(for _: String, createdAt _: Date) throws -> CommentItem {
+        throw error
     }
 }
 

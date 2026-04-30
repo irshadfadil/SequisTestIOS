@@ -31,6 +31,7 @@ struct ImageCardView: View {
         .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 4)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Author \(item.author)")
+        .accessibilityIdentifier("image-card-\(index)")
     }
 
     private var imagePanel: some View {
